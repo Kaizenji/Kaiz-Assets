@@ -14,6 +14,8 @@ fetch("/api-list")
 .then(response => response.json())
 .then(apis => {
     const sidebar = document.getElementById('accordionSidebar');
+    
+    // Group APIs by category
     const categories = apis.reduce((acc, api) => {
         if (!acc[api.category]) {
             acc[api.category] = [];
@@ -22,6 +24,7 @@ fetch("/api-list")
         return acc;
     }, {});
 
+    // Define specific icons for each category
     const categoryIcons = {
         "Tools": "fas fa-wrench",
         "Ai": "fas fa-brain",
@@ -32,17 +35,18 @@ fetch("/api-list")
         "Others": "fas fa-ellipsis-h"
     };
 
+    // Create sidebar items for each category with its icon
     Object.keys(categories).forEach((category, index) => {
         const categoryId = `collapse${index}`;
         const categoryItem = document.createElement('li');
         categoryItem.className = 'nav-item';
 
-        // Use the specific icon for each category if available
-        const iconClass = categoryIcons[category] || "";
+        // Check if the icon exists for the category, otherwise leave blank
+        const iconClass = categoryIcons[category] ? `<i class="${categoryIcons[category]}"></i>` : "";
 
         categoryItem.innerHTML = `
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#${categoryId}" aria-expanded="true" aria-controls="${categoryId}">
-                ${iconClass ? `<i class="${iconClass}"></i>` : ""}
+                ${iconClass}
                 <span>${category.charAt(0).toUpperCase() + category.slice(1)}</span>
             </a>
             <div id="${categoryId}" class="collapse" aria-labelledby="heading${index}" data-parent="#accordionSidebar">
@@ -55,7 +59,7 @@ fetch("/api-list")
                 </div>
             </div>
         `;
-        
+
         sidebar.appendChild(categoryItem);
     });
 
