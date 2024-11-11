@@ -14,7 +14,7 @@ fetch("/api-list")
 .then(response => response.json())
 .then(apis => {
     const sidebar = document.getElementById('accordionSidebar');
-    
+
     // Group APIs by category
     const categories = apis.reduce((acc, api) => {
         if (!acc[api.category]) {
@@ -24,29 +24,29 @@ fetch("/api-list")
         return acc;
     }, {});
 
-    // Define specific icons for each category
-    const categoryIcons = {
-        "Tools": "fas fa-wrench",
-        "Ai": "fas fa-brain",
-        "Search": "fas fa-search",
-        "Canvas": "fas fa-paint-brush",
-        "Image Generation": "fas fa-image",
-        "Anime": "fas fa-dragon",
-        "Others": "fas fa-ellipsis-h"
-    };
+    // Determine icon based on keywords in category name
+    function getIconForCategory(category) {
+        if (category.includes("Tools")) return "fas fa-wrench";
+        if (category.includes("Ai")) return "fas fa-brain";
+        if (category.includes("Search")) return "fas fa-search";
+        if (category.includes("Canvas")) return "fas fa-paint-brush";
+        if (category.includes("Image")) return "fas fa-image";
+        if (category.includes("Anime")) return "fas fa-dragon";
+        return "fas fa-ellipsis-h"; // Default icon for other categories
+    }
 
-    // Create sidebar items for each category with its icon
+    // Create sidebar items for each category
     Object.keys(categories).forEach((category, index) => {
         const categoryId = `collapse${index}`;
         const categoryItem = document.createElement('li');
         categoryItem.className = 'nav-item';
 
-        // Check if the icon exists for the category, otherwise leave blank
-        const iconClass = categoryIcons[category] ? `<i class="${categoryIcons[category]}"></i>` : "";
+        // Assign icon based on category name
+        const iconClass = getIconForCategory(category);
 
         categoryItem.innerHTML = `
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#${categoryId}" aria-expanded="true" aria-controls="${categoryId}">
-                ${iconClass}
+                <i class="${iconClass}"></i>
                 <span>${category.charAt(0).toUpperCase() + category.slice(1)}</span>
             </a>
             <div id="${categoryId}" class="collapse" aria-labelledby="heading${index}" data-parent="#accordionSidebar">
