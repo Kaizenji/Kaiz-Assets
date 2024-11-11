@@ -36,10 +36,13 @@ fetch("/api-list")
         const categoryId = `collapse${index}`;
         const categoryItem = document.createElement('li');
         categoryItem.className = 'nav-item';
-        const iconClass = categoryIcons[category] || "fas fa-circle";
+
+        // Use the specific icon for each category if available
+        const iconClass = categoryIcons[category] || "";
+
         categoryItem.innerHTML = `
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#${categoryId}" aria-expanded="true" aria-controls="${categoryId}">
-                <i class="${iconClass}"></i>
+                ${iconClass ? `<i class="${iconClass}"></i>` : ""}
                 <span>${category.charAt(0).toUpperCase() + category.slice(1)}</span>
             </a>
             <div id="${categoryId}" class="collapse" aria-labelledby="heading${index}" data-parent="#accordionSidebar">
@@ -52,6 +55,7 @@ fetch("/api-list")
                 </div>
             </div>
         `;
+        
         sidebar.appendChild(categoryItem);
     });
 
