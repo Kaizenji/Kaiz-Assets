@@ -36,7 +36,7 @@ fetch("/api-list")
         categoryItem.className = 'nav-item';
         categoryItem.innerHTML = `
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#${categoryId}" aria-expanded="true" aria-controls="${categoryId}">
-                <i class="fa-solid fa-crosshairs"></i>
+                <i class="fas fa-circle"></i>
                 <span>${category.charAt(0).toUpperCase() + category.slice(1)}</span>
             </a>
             <div id="${categoryId}" class="collapse" aria-labelledby="heading${index}" data-parent="#accordionSidebar">
